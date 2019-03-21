@@ -1,0 +1,47 @@
+<!--<div class="col-md-6 col-md-offset-3">-->
+
+<div class="modal-dialog">
+  <div class="modal-content">
+
+	<div class="edit-book-form">
+
+		    <div class="modal-header" style="background: linear-gradient(to top, #1a936f 0%, #88d498 100%); color: white">
+	           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	           <center><h5 class="modal-title" style=" font-size: 20pt; font-family: Great Vibes; ">Edit Book Details</h5></center>
+          
+        	</div>
+
+		<!--<h1>Edit Book</h1>-->
+
+		<%= simple_form_for @book, remote: true, :html => { :multipart => true } do |f| %>
+		 <br>
+		 <%= f.select :category_id, @categories %>
+		 <br>
+		 <%= f.file_field :user_pic, accept: 'image/png, image/jpg' %>
+		 <br>
+		 <%= f.input :title, label: "Book Title" %>
+		 <%= f.input :description %>
+		 <%= f.input :author %>
+		 <%= f.button :submit, :class => 'btn-custom4', onclick: "sweetEditBook();" %>	<!--EDIT BOOK BUTTON-->
+
+		 	<!--SWEET ALERT FOR ADDING REVIEWS-->
+             <script type="text/javascript">
+                function sweetEditBook(){         
+                    Swal.fire({
+                      position: 'top-end',
+                      type: 'success',
+                      title: 'Edit book details successfully!',
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                } 
+            </script>
+             <!--END-->
+		 
+
+		<% end %>
+	</div>
+</div>
+</div>
+
+<!-- </div>	-->

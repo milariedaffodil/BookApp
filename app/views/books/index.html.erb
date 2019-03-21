@@ -1,0 +1,251 @@
+
+<!--FONTS REVIEWS-->
+<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style type="text/css">
+    body {
+    background: linear-gradient(to right, #88d498 0%, #c6dabf 100%); 
+    font-family: 'Varela Round', sans-serif;
+  }
+
+  
+  hr.style13 {
+  background-image: url(/assets/wood.jpg);
+  height: 20px;
+  border-radius: 10px;
+ 
+  margin-top: .02rem;
+  /*border: 5px solid brown;*/
+  box-shadow: 10px 10px 10px #1e130c;
+}
+
+
+
+/*FLIP BOOK*/
+
+/* The flip box container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-box {
+  background-color: transparent;
+ margin-left: -1.5rem;
+  width: 300px;
+  height: 200px;
+
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-box-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-box:hover .flip-box-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-box-front, .flip-box-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-box-front {
+
+  color: black;
+}
+
+/* Style the back side */
+.flip-box-back {
+  
+
+  color: white;
+  transform: rotateY(180deg);
+}
+/*FLIP BOOK END*/
+
+
+
+</style>
+
+
+
+	<!--NAVBAR-->
+	<nav class="navbar navbar-default" style="background: linear-gradient(to top, #1a936f 0%, #88d498 100%);">
+
+	  <div class="container">
+
+	       <div class="navbar-header">
+            <%= link_to "Book Review", root_path, class: "navbar-brand" %>
+	      </div>
+
+	      <ul class="nav navbar-nav">
+
+	        <% if user_signed_in? %>
+
+	              <li><%= link_to edit_user_registration_path do %><%= image_tag current_user.avatar.url.to_s, class: "profpic" %><% end %></li>
+	             <li style='color: white'><%= link_to current_user.full_name, current_user %></li>
+	            <li><%= link_to "Sign Out", destroy_user_session_path, onclick: "sweetOut();", method: :delete %></li>
+	                <script type="text/javascript">
+	                    function sweetOut(){         
+	                        Swal.fire({
+	                          position: 'top-end',
+	                          type: 'success',
+	                          title: 'Logout successfully!',
+	                          showConfirmButton: false,
+	                          timer: 1500
+	                        })
+	                    } 
+	                </script>
+	        <% else %>   
+	            <li><%= link_to "Sign Up", new_user_registration_path %></li> 
+	            <li><%= link_to "Log In", new_user_session_path %></li>
+
+	        <% end %>
+	      </ul>
+
+
+	      <ul class="nav navbar-nav navbar-right">
+
+	          <li class="dropdown">
+	            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categories <span class="caret"></span></a>
+	            <ul class="dropdown-menu" role="menu">
+	              <% Category.all.each do |category| %>
+	              <li class="<%= 'active' if params[:category] == category.name %>">
+	                <%= link_to category.name, books_path(category: category.name), class:  "link" %>
+	              </li>
+	              <% end %>
+	            </ul>
+	          </li>
+
+	        <!--remote true for hyperlinks-->
+	        <% if user_signed_in? %>
+	          <li><%= link_to "Add Book", new_book_path,  remote: true %></li>
+	          <li><%= link_to "Chat", conversations_path %></li>
+
+
+	           
+	          
+
+
+	         <% end %>
+
+	      </ul>
+
+	        <%= form_tag books_path, :method => 'get', class: "navbar-form navbar-right", role: "search" do %>
+	          <p>
+	            <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "Search Book Title" %>
+	            <%= submit_tag "Search", :title => nil, class: "btn btn-default", :style => "color: white; background-color:  #1a936f" %>
+	          </p>
+	        <% end %>
+
+	  </div>
+	</nav>
+	 <!-- END NAVBAR-->
+
+
+
+
+	    <div class="container"> <!--Margin for right and left-->
+	      <%= yield %>
+	    </div>
+
+
+
+	<!--FULL NAVBAR END-->
+
+ <div class="container"> <!--Margin for right and left-->
+
+<!--MODAL CONTAINER-->
+<% if user_signed_in? %>
+	<div class="container">
+	  <div class="new-book"></div>
+
+	</div>
+	<div id="book-modal" class="modal fade"></div>
+<% end %>
+<!--MODAL CONTAINER ENDS-->
+
+
+<h1 class="current-category" style="color: white"><%= params[:category] %></h1> <!--CATEGORY DISPLAY-->
+
+<hr class="style13" style="margin-top: 2%">
+<br>
+
+<!--STOP HERE-->
+
+
+
+<% if @books.count == 0 %>
+	<h1>There are no books currently in this category</h1>
+<% else %>
+
+
+	<div class="row"> <!--for spacing-->
+
+	<% @books.each do |book| %>
+
+		<div class="col-md-3" style="margin-bottom: 20rem"> <!--for spacing-->
+			<!--BookReview Part 3 (11:24)-->
+
+
+
+ 			<!--FLIP BOOK-->
+			<div class="flip-box">
+			  <div class="flip-box-inner">
+			    <div class="flip-box-front">
+			      <!--PICTURE FLIP-->
+			      	<a href="/books/<%= book.id %>">
+						<%= image_tag book.user_pic.url.to_s, class: "book" %>
+        
+					</a>
+			    
+			    </div>
+
+			    
+			    <div class="flip-box-back">
+			       <!--PICTURE FLIP-->
+			       
+			       <a href="/books/<%= book.id %>">
+						<%= image_tag book.user_pic.url.to_s, class: "book" %>
+        
+					</a>
+
+			    </div>
+
+			  </div>
+			</div> <!--FLIP BOOK END-->
+
+
+		</div>
+
+		<!--<h2><%= link_to book.title, book_path(book) %></h2>--> <!--Delete this-->
+	<% end %>
+ 
+	</div>
+
+<% end %>
+
+<hr class="style13">
+
+
+
+
+<!--WILL PAGINATE-->
+
+<%= will_paginate @books, renderer: BootstrapPagination::Rails, previous_label: "< Previous", next_label: "Next >", inner_window: 1, outer_window: 0 %>
+							<!--For labels-->							<!--For box numbers-->
+
+
+
+
+  </div> <!--end-->
+

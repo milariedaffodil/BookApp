@@ -1,0 +1,5 @@
+$('.delete_review').bind('ajax:success', function() {
+   var parentdiv = $(this).closest('div').fadeOut();
+   var deletee = $(parentdiv).parent('div');
+   deletee.fadeOut();
+});

@@ -1,0 +1,227 @@
+<!--FONTS REVIEWS-->
+<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style type="text/css">
+    body {
+    background: linear-gradient(to right, #88d498 0%, #c6dabf 100%); 
+    font-family: 'Varela Round', sans-serif;
+  }
+  
+  hr.style13 {
+  background-image: url(/assets/wood.jpg);
+  height: 20px;
+  border-radius: 10px;
+ 
+  margin-top: .02rem;
+  /*border: 5px solid brown;*/
+  box-shadow: 10px 10px 10px #1e130c;
+}
+
+
+</style>
+
+<!--******************NAVBAR*********************-->
+	<nav class="navbar navbar-default" style="background: linear-gradient(to top, #1a936f 0%, #88d498 100%);">
+
+	  <div class="container">
+
+	       <div class="navbar-header">
+            <%= link_to "Book Review", root_path, class: "navbar-brand" %>
+	      </div>
+
+	      <ul class="nav navbar-nav">
+
+	        <% if user_signed_in? %>
+	            <li style='margin: 15px; color: white'><%= current_user.email %></li>
+	            <li><%= link_to "Sign Out", destroy_user_session_path, onclick: "sweetOut();", method: :delete %></li>
+	                <script type="text/javascript">
+	                    function sweetOut(){         
+	                        Swal.fire({
+	                          position: 'top-end',
+	                          type: 'success',
+	                          title: 'Logout successfully!',
+	                          showConfirmButton: false,
+	                          timer: 1500
+	                        })
+	                    } 
+	                </script>
+	        <% else %>   
+	            <li><%= link_to "Sign Up", new_user_registration_path %></li> 
+	            <li><%= link_to "Log In", new_user_session_path %></li>
+
+	        <% end %>
+	      </ul>
+
+
+	      <ul class="nav navbar-nav navbar-right">
+
+	          <li class="dropdown">
+	            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categories <span class="caret"></span></a>
+	            <ul class="dropdown-menu" role="menu">
+	              <% Category.all.each do |category| %>
+	              <li class="<%= 'active' if params[:category] == category.name %>">
+	                <%= link_to category.name, books_path(category: category.name), class:  "link" %>
+	              </li>
+	              <% end %>
+	            </ul>
+	          </li>
+
+	        <!--remote true for hyperlinks-->
+	        <% if user_signed_in? %>
+	          <li><%= link_to "Add Book", new_book_path,  remote: true %></li>
+	        <% end %>
+
+	      </ul>
+
+	        <%= form_tag books_path, :method => 'get', class: "navbar-form navbar-right", role: "search" do %>
+	          <p>
+	            <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "Search Book Title" %>
+	            <%= submit_tag "Search", :title => nil, class: "btn btn-default", :style => "color: white; background-color: #1a936f" %>
+	          </p>
+	        <% end %>
+
+	  </div>
+	</nav>
+<!--********************************** END NAVBAR **********************************-->
+
+
+<div class="container" style="margin-top: 5%"><!--DIV CLASS CONTAINER END-->
+
+<div class="row">
+
+	<div class="col-md-4"> 	<!--WHITE BOX BACKGROUND-->
+
+			       <!--PICTURE-->
+			       <%= image_tag @book.user_pic.url.to_s, class: "book-show" %>
+			 	
+	</div>  	<!--WHITE BOX BACKGROUND END-->
+
+
+	<!--DETAILS ABOUT THE BOOK-->
+	<div class="col-md-8">
+
+		<div class="book-info">
+
+			<h2 class="book-title"><%= @book.title %></h2>
+			<h3 class="book-author"><span>From: </span><%= @book.author %></h3>
+			<h4>Category: <%= @book.category.name %></h4>
+			<h2 class="avg-rating">Average Rating</h2>
+			<div class="average-review-rating" data-score=<%= @average_review %>></div>
+			<span class="number-of-reviews">Based on <%= @book.reviews.count %> reviews</span>
+			<p class="book-description"><%= @book.description %></p>
+
+		</div>
+	</div>
+	<!--DETAILS ABOUT THE BOOK END-->
+
+</div><!--DIV CLASS ROW END-->
+
+
+
+<!--REVIEWS DISPLAY CONTAINER-->
+<div class="row">
+
+<!--REVIEWS DISPLAY and BUTTON ADD REVIEW-->
+	<div class="col-md-4">
+
+		<div class="reviews">
+
+			<!-- Where the reviews/ratings will go -->
+			<h1>Reviews</h1>
+			<%= render @book.reviews %>
+
+			<div>
+				<%= link_to "Add Review", new_book_review_path(@book), remote: true, class: "btn-custom" %>
+			</div>
+			
+		</div>	
+
+	</div>
+<!--REVIEWS DISPLAY CONTAINER END-->
+
+</div>	
+
+<br>
+
+
+<!--BUTTONS TO EDIT || DELETE BOOKS-->
+<div class="links btn-group">
+
+<%= link_to "Back", root_path, class: "btn btn-custom" %>
+
+<% if user_signed_in? %>
+
+	<% if @book.user_id == current_user.id %>
+
+
+
+		<%= link_to "Edit", edit_book_path(@book), remote: true, class: "btn btn-custom" %>
+		<%= link_to "Delete", book_path(@book), type: "button",  class: "btn btn-custom", method: :delete, data: {confirm: "Are you sure?"} %>
+<br><br><br>
+		
+		<script>
+			
+			  //$("a.delete").click(function(a){
+				  		  //a.preventDefault();
+						  //Swal.fire({
+						  //title: 'Are you sure?',
+						 // text: "You won't be able to revert this!",
+						 // type: 'warning',
+						 // showCancelButton: true,
+						 // confirmButtonColor: '#3085d6',
+						 // cancelButtonColor: '#d33',
+						  //confirmButtonText: 'Yes, delete it!'
+						  
+						//}).then((result) => {
+						 // if (result.value) {
+						  //  Swal.fire(
+						   //   'Deleted!',
+						    //  'Your file has been deleted.',
+						    //  'success'
+						   // )
+						 // }
+
+						//})
+				 // })
+							    
+        
+		</script>
+
+	<% end %>
+<% end %>
+</div>
+
+</div><!--DIV CLASS CONTAINER END-->
+<!--END-->
+
+<div id="book-modal" class="modal fade"></div>
+
+<div id="review-modal" class="modal fade"></div> <!--REVIEW MODAL-->
+
+
+<!--STARS RATING-->
+<script>
+	$('.review-rating').raty({
+		readOnly: true, 
+		score: function() {
+		return $(this).attr('data-score');
+	},
+	path: '/assets/'
+
+});
+</script>
+
+
+<!--STAR RATING below AVERAGE RATING-->
+<script>
+	$('.average-review-rating').raty({
+		readOnly: true,
+		path: '/assets/',
+		score: function() {
+			return $(this).attr('data-score')
+		}
+	});
+</script>
+
+

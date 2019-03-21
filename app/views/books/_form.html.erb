@@ -1,0 +1,75 @@
+
+<!--MODAL POP UP CONTENT FORM-->
+
+
+<div class="modal-dialog">
+  <div class="modal-content">
+
+     <div class="edit-book-form"> <!--BOX SHADOW-->
+
+
+    <%= form_for @book, remote: true, html: { style: "display:inline;", :multipart => true} do |f| %>
+
+
+      <div class="modal-body">
+        <ul class="errors"></ul>
+
+
+
+
+           
+
+        <div class="modal-header" style="background: linear-gradient(to top, #1a936f 0%, #88d498 100%);">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+           <center><h5 class="modal-title" style=" font-size: 16pt; font-family: Arial; color: white">ADD BOOK</h5></center>
+          
+        </div>
+
+        <br>
+
+         <div class="form-group">
+         	 <%= select_tag(:category_id, options_for_select(@categories), :prompt => "Select a category") %>
+  
+        </div>
+
+        <div class="form-group">
+           
+           <%= f.file_field :user_pic, accept: 'image/png, image/jpg' %>
+        </div>
+
+
+        <div class="form-group">
+          <%= f.label :title, class:"control-label" %>
+          <%= f.text_field :title, class: "form-control" %>
+        </div>
+
+
+        <div class="form-group">
+          <%= f.label :author, class: "control-label"%>
+          <%= f.text_field :author, class: "form-control" %>
+        </div>
+
+
+        <div class="form-group">
+          <%= f.label :description, class: "control-label" %>
+          <%= f.text_area :description, class: "form-control" %>
+        </div>
+
+
+
+
+      </div>
+
+      <div class="modal-footer">
+        <%= f.submit class: "btn-custom4" %>  <!--CREATE BOOK BUTTON onclick to call the sweetalert func-->
+  
+
+        <%= link_to "Cancel", "#", class: "btn-custom4", data: {dismiss: "modal"} %> <!--CANCEL BOOK BUTTON-->
+      </div>
+
+    <% end %>
+
+  </div><!--BOX SHADOW END-->
+
+  </div>
+</div>

@@ -1,0 +1,9 @@
+$("ul.errors").html("")
+<% if @review.errors.any? %>
+  <% @review.errors.full_messages.each do |message| %>
+    $("ul.errors").append($("<li />").html("<%= message.html_safe %>"))
+  <% end %>
+<% else %>
+  $(".review-index").html("<%= escape_javascript(render 'index') %>") //try to change later 'index'
+  $("#review-modal").modal("hide")
+<% end %>

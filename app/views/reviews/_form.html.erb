@@ -1,0 +1,76 @@
+<!--ADD REVIEW FORM-->
+
+<div class="modal-dialog">
+  <div class="modal-content">
+
+  <div class="edit-book-form"> <!--BOX SHADOW-->
+
+        <div class="modal-header" style="background: linear-gradient(to top, #1a936f 0%, #88d498 100%);">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+           <center><h5 class="modal-title" style=" font-size: 20pt; font-family: Great Vibes; color: white">Add Review</h5></center>
+          
+        </div>
+
+        
+  	<%= simple_form_for([@book, @book.reviews.build] , remote: true) do |f| %>
+
+      <div class="modal-body">
+        <ul class="errors"></ul>
+
+    
+        <div class="form-group">
+    			<div id="rating-form">
+    				<label>Rating</label>
+    			</div>
+        </div>
+      
+
+
+	        <div class="form-group">
+	          <%= f.label :comment, class: "control-label" %>
+	          <%= f.text_field :comment, class: "form-control" %>
+	        </div>
+      </div>
+      <!--CREATE | CANCEL  BUTTON-->
+      <div class="modal-footer">
+        <%= f.submit "Save Review", class: "btn-custom4", onclick: "sweetAddReview();" %>
+
+           <!--SWEET ALERT FOR ADDING REVIEWS-->
+             <script type="text/javascript">
+                function sweetAddReview(){         
+                    Swal.fire({
+                      position: 'top-end',
+                      type: 'success',
+                      title: 'Added review successfully!',
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                } 
+            </script>
+             <!--END-->
+
+        <%= link_to "Cancel", "#", class: "btn-custom4", data: {dismiss: "modal"} %>
+      </div>
+
+    <% end %>
+      </div>
+
+  </div> <!--BOX SHADOW END-->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+	$('#rating-form').raty({
+		path: '/assets/',
+		scoreName: 'review[rating]'
+	});
+</script>

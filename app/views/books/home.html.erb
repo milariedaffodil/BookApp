@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+
+
+
+
+<style type="text/css">
+
+
+
+ </style>  
+
+    <link href="/assets/heartbooks.ico" rel="shortcut icon" type="image/x-icon" />
+    <title>BookApp</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+
+ </head>
+
+
+
+
+  <body>
+
+ 
+
+
+
+
+
+
+    <div class="container"> <!--Margin for right and left-->
+      <%= yield %>
+    </div>
+
+<!--*************************************-->
+
+<!--<div class="container" style=" margin-top: 5%; margin-bottom: 5%">-->
+            <div class="row">
+
+                <!--BOX WITH IMAGE-->
+                 <div class="col-md-6" style="padding: 5%; box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);">
+                      
+                       <div class="signup-form"><!--SIGN UP FORM CLASS-->
+                       <%= image_tag ("/assets/signin-image.jpg"), class: "img-responsive", :style => "width:292px; height:331px"%>
+                        </div>
+                </div>
+                <!--END-->
+
+
+
+               <div class="col-md-6" style="padding: 5%; box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);">  <!--LOGIN FORM-->
+
+                      <div class="signup-form"><!--WHITE CONTAINER-->
+
+                          <h2>Log In</h2>
+
+                          <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                            <div class="form-inputs">
+                              <!--EMAIL-->
+                              <%= f.input :email,
+                                          required: false,
+                                          autofocus: true,
+                                          input_html: { autocomplete: "email" } %> 
+                              <!--PASSWORD-->            
+                              <%= f.input :password,
+                                          required: false,
+                                          input_html: { autocomplete: "current-password" } %>
+                              <!--REMEMBER ME CHECKBOX-->            
+                              <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+                            </div>
+
+                            <div class="form-actions">
+                              <!--LOGIN BUTTON-->
+                              <%= f.button :submit, "Log in", class: "btn-custom3" %>
+                            </div>
+                          <% end %>
+
+                          <%= render "devise/shared/links" %>
+
+                      </div>
+                      
+                    </div><!--LOGIN FORM END-->
+
+
+                </div>
+            </div>
+       <!--</div>-->
+
+<!--*************************************-->
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+  </body>
+</html>

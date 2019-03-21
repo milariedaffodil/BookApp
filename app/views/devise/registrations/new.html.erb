@@ -1,0 +1,138 @@
+<style>
+
+body{
+    background-image: url(/assets/lb.png);
+   /*background: linear-gradient(to right, #C0B283 0%, #F4F4F4 100%);*/
+}
+
+/*BUTTON ARROW HOVER ANIMATION*/
+
+.buttonanim {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #1a936f;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 18px;
+  padding: 10px;
+  width: 120px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.buttonanim span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.buttonanim span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.buttonanim:hover span {
+  padding-right: 25px;
+}
+
+.buttonanim:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+/*FADE ANIMATION*/
+
+    .animated {
+            background-repeat: no-repeat;
+            background-position: left top;
+            padding-top:20px;
+            margin-bottom:30px;
+            -webkit-animation-duration: 2s;
+            animation-duration: 2s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+         }
+         
+         @-webkit-keyframes fadeIn {
+            0% {opacity: 0;}
+            100% {opacity: 1;}
+         }
+         
+         @keyframes fadeIn {
+            0% {opacity: 0;}
+            100% {opacity: 1;}
+         }
+         
+         .fadeIn {
+            -webkit-animation-name: fadeIn;
+            animation-name: fadeIn;
+         }
+
+</style>
+
+<body>
+
+<!--ANIMATION FADE IN--> 
+<div id = "animated-example" class = "animated fadeIn">
+
+    <div class="container" style="background-color: white; margin-top: 5%; margin-bottom: 5%; border: 1px solid #CCD1D1; border-radius: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); max-width: 50%;">
+
+      <div class="row">
+
+        <div class="col-md-6" style="  background-color: white; border-top-left-radius: 5px; border-bottom-left-radius: 5px;color: #fff; padding: 15px; text-align: center;">
+          <h1 style="color: black"><span id="fl">Book</span><span id="sl"> Review</span></h1>
+          <%= image_tag ("/assets/signup-image.jpg"), class: "img-responsive"%>
+        </div>
+
+        <div class="col-md-6" style="background-color: white; padding: 15px">
+        
+                           <center><h2>Sign up</h2></center>
+
+                            <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { :multipart => true }) do |f| %>
+                              <%= f.error_notification %>
+
+                              <div class="form-inputs">
+                                <%= f.input :email,
+                                            required: true,
+                                            autofocus: true,
+                                            input_html: { autocomplete: "email" }%>
+
+                                
+
+                                <%= f.input :full_name,
+                                            required: true,
+                                            autofocus: true,
+                                            input_html: { autocomplete: "full_name" }%>
+
+                                <%= f.file_field :avatar, accept: 'image/png, image/jpg, image/jpeg, image/gif' %>
+
+
+                                <%= f.input :password,
+                                            required: true,
+                                            hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                                            input_html: { autocomplete: "new-password" } %>
+                                <%= f.input :password_confirmation,
+                                            required: true,
+                                            input_html: { autocomplete: "new-password" } %>
+                              </div>
+
+                              <div class="form-actions">
+                                <button type="submit" class="buttonanim" style="vertical-align:middle"><span>Sign Up </span></button>
+                                <a href="/users/sign_in", class="buttonanim" style="float: left"><span>Log In</span> </a> 
+                              </div>
+                            <% end %>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+<!--********************-->   
+</body>

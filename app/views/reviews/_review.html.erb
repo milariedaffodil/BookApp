@@ -1,0 +1,26 @@
+<!--DISPLAY reviews with edit delete button-->
+
+<div class="review">
+
+<li><%= review.user.email %></li>
+	<div class="review-rating" data-score="<%= review.rating %>"></div>
+	<p class="review-comment"><%= review.comment %></p>
+
+	<% if user_signed_in? %>
+
+		<% if review.user_id == current_user.id %>
+
+
+			<!--EDIT DELETE BUTTON FOR REVIEWS-->
+			<div class="links btn-group">
+
+				<%= link_to "Edit", edit_book_review_path(review.book, review), remote: true, class: "btn btn-custom" %>
+				<%= link_to "Delete", book_review_path(review.book, review), method: :delete, data: { confirm: "Are you sure?", remote: true }, class: "btn btn-custom delete_review"  %>
+
+			</div>
+
+		<% end %>
+	<% end %>	
+
+</div>
+
