@@ -1,0 +1,14 @@
+<div class="columns">
+  <div class="column is-3">
+    <h3 class="title is-3">All Users</h3>
+      <% @users.each do |user| %>
+        <% if user.id != current_user.id %>
+        <div class="columns">
+        <div class="column">
+          <%= image_tag user.avatar.url.to_s, class: "profpic" %>
+          <%= link_to "#{user.email}", conversations_path(sender_id: current_user.id, recipient_id: user.id), method: "post" %>
+        </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>

@@ -1,0 +1,36 @@
+<h3 class="title is-4">
+  <%= image_tag @conversation.recipient.avatar.url.to_s, class: "profpic" %> 
+  <%= @conversation.recipient.email %></h3>
+
+  <br><br>
+
+<% if @over_ten %>
+<%= link_to "Show previous", '?m=all', class:'button is-link' %>
+<% end %>
+
+<section id="messages" class="mb4">
+  <% @messages.each do |message| %>
+    <% if message.body %>
+      <% user = User.find(message.user_id) %>
+      <article class="message is-dark">
+        <div class="message-body">
+          <div class="inline-block"><strong>
+            <%= image_tag user.avatar.url.to_s, class: "profpic" %>
+            <%= user.email %></strong> <%= message.message_time %>
+          </div>
+          <div class="block pt4">
+            <div class="f4"><%= message.body %></div>
+          </div>
+        </div>
+      </article>
+    <% end %>
+  <% end %>
+</section>
+
+<%= form_for [@conversation, @message] do |f| %>
+  <%= f.text_area :body, class: "textarea", placeholder: "Inquire about a book..." %>
+  <%= f.text_field :user_id, value: current_user.id, type: "hidden"  %>
+  <div class="text-align-right">
+    <%= f.submit "Send message", class: "button is-link is-large mt3" %>
+  </div>
+<% end %>
